@@ -1,0 +1,44 @@
+docker --version 
+sudo apt update 
+sudo apt install apt-transport-https ca-certificates curl software-properties-common -y 
+sudo systemctl start docker 
+sudo systemctl enable docker 
+sudo docker run hello-world 
+mkdir my-python-app 
+cd my-python-app 
+nano app.py 
+nano Dockerfile 
+nano requirements.txt 
+docker build -t myapp-image . 
+docker run -d -p 5000:5000 --name myapp myapp-image 
+ls 
+docker login -u ankith05 
+docker tag myapp-image ankith05/my-python-app:latest 
+docker push ankith05/my-python-app:latest 
+git config --global user.name "Ankith0505" 
+git config --global user.email "ankithshetty0505@gmail.com" 
+git config --list 
+git clone https://github.com/Ankith0505/jenkins-docker.git 
+cd jenkins-docker 
+docker build -t my-python-app . 
+docker images 
+sudo apt update 
+sudo apt install maven -y 
+mvn archetype:generate -DgroupId=com.example.app \ -DartifactId=demo-app \ -DarchetypeArtifactId=maven-archetype-quickstart \ -DinteractiveMode=false 
+cd demo-app 
+ls 
+nano pom.xml 
+nano src/main/java/com/example/app/App.java 
+nano src/test/java/com/example/app/AppTest.java 
+mvn clean install 
+mvn exec:java -Dexec.mainClass="com.example.app.App" 
+git init 
+git add . 
+git commit -m "Initial commit" 
+git branch -M main 
+git remote add origin https://github.com/<your-username>/demo-app.git 
+git push -u origin main 
+sudo rm jenkins.war 
+sudo rm -rf ~/.jenkins 
+wget https://get.jenkins.io/war-stable/latest/jenkins.war 
+java -jar jenkins.war --httpPort=8090 
