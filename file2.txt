@@ -1,0 +1,58 @@
+docker --version
+
+sudo systenctl start docker
+sudo systemctl enable docker
+
+sudo docker run hello-world
+
+mkdir my-python-app
+cd my-python-app
+
+nano app.py
+
+#app.py
+
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Hello! Docker is running this Python app successfully"
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
+
+
+nano Dockerfile
+
+#Dockerfile
+
+FROM python:3.11-slim
+WORKDIR /app
+
+# Copy and install dependencies first (for better caching)
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy your application code
+COPY app.py .
+
+# Expose the port Flask runs on
+EXPOSE 5000
+
+# Corrected CMD syntax
+CMD ["python", "app.py"]
+
+
+nano requirements.txt
+
+# requirements.txt
+
+Flask
+
+
+docker build -t myapp-image .
+docker images
+
+docker run -d -p 5000:5000 --name myapp myapp-image
